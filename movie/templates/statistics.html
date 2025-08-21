@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <br>
+    <h3 style="font-family: 'Dancing Script', cursive;">Movies per year chart</h3>
+    <img src="data:image/png;base64,{{graphic_years}}" alt="Movies per year chart">
+     <h3 style="font-family: 'Dancing Script', cursive;">Movies per genre chart</h3>
+    <img src="data:image/png;base64,{{graphic_genres}}" alt="Movies per genre chart">
+</body>
+{% endblock content %}
