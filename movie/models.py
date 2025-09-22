@@ -1,15 +1,28 @@
+
 from django.db import models
+from django.conf import settings
+import os
+import numpy as np
 
-# Create your models here.
+def get_default_array():
+    return np.random.rand(1536).tobytes()
+
 class Movie(models.Model):
-    title=models.CharField(max_length=100)
-    genre=models.CharField(max_length=1000)
-    year=models.IntegerField(blank=True, null=True)
-    description=models.CharField(max_length=250)
-    image=models.ImageField(upload_to='movie/images/')
-    url=models.URLField(blank=True)
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=1500)
+    image = models.ImageField(upload_to='movie/images/', default='movie/images/default.jpg')
+    url = models.URLField(blank=True)
+    genre = models.CharField(blank=True, max_length=250)
+    year = models.IntegerField(blank=True, null=True)
+    emb = models.BinaryField(default=get_default_array)
 
-def __str__(self):
-  return self.title
+    def __str__(self):
+        return self.title
 
+    @property
+    def safe_image_url(self):
+        if self.image and os.path.exists(os.path.join(settings.MEDIA_ROOT, self.image.name)):
+            return self.image.url
+        # Retorna imagen por defecto si no existe
+        return '/media/movie/images/sin_image.jpg'
 

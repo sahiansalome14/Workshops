@@ -1,57 +1,63 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center mt-5" style="color: #6f42c1; font-family: 'Dancing Script', cursive;">🎬🍿Welcome to Home Page, {{ name }}</h1>
-<h2 class="text-center mb-5"  style="  font-family: 'Nunito', sans-serif;; color: #6c757d;">This is the full Home Page</h2>
+<h1 class="text-center mt-5" style="color: #6f42c1; font-family: 'Dancing Script', cursive;">
+    🎬🍿Welcome to Home Page, {{ name }}
+</h1>
+<h2 class="text-center mb-5" style="font-family: 'Nunito', sans-serif; color: #6c757d;">
+    This is the full Home Page
+</h2>
 
-<div class="container my-4" >
+<div class="container my-4">
 
-  <nav class="navbar">
-    <form class="d-flex w-100" role="search" method="get">
-      <input type="text" class="form-control me-2 flex-grow-1" name="searchMovie"
-             placeholder="Buscar película..." value="{{ searchTerm }}" aria-label="Search">
-      <button class="btn btn-outline-primary" type="submit">Search</button>
-    </form>
-  </nav>
+    <nav class="navbar">
+        <form class="d-flex w-100" role="search" method="get">
+            <input type="text" class="form-control me-2 flex-grow-1" name="searchMovie"
+                   placeholder="Buscar película..." value="{{ searchTerm }}" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
+    </nav>
 
     <p class="text-muted">🔍 Searching for: <strong>{{ searchTerm }}</strong></p>
 
-    <!-- Un card por cada película con sus correspondientes atributos -->
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-    <!-- define una fila en una cuadrícula con una columna en pantallas extra pequeñas y tres
-    columnas en pantallas grandes-->
-        {% for movie in movies %}
-            <div v-for="movie in movies" class="col">
-                <div class="card">
-                    <img src="{{ movie.image.url }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">{{ movie.title }}</h5>
-                    <p class="card-text">{{ movie.year }}</p>
-                    <p class="card-text">{{ movie.genre }}</p>
-                    <p class="card-text">{{ movie.description }}</p>
-                    
-                    {% if movie.url %}
-                    <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
-                    {% endif %}
+     <!-- Botón de AI Recommendation -->
+    <div class="mb-4 text-center">
+        <a href="{% url 'recommend_movie' %}" 
+        class="btn btn-lg shadow-lg rounded-pill px-5 py-2"
+        style="background: linear-gradient(90deg, #7F5AF0, #A26DFD); color: white; font-weight: bold; font-family: 'Poppins', sans-serif;">
+        🤖 AI Recommendation
+        </a>
+    </div>
 
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for movie in movies %}
+            <div class="col">
+                <div class="card">
+                  <img src="{{ movie.safe_image_url }}" class="card-img-top" alt="{{ movie.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <p class="card-text">{{ movie.year }}</p>
+                        <p class="card-text">{{ movie.genre }}</p>
+                        <p class="card-text">{{ movie.description }}</p>
+
+                        {% if movie.url %}
+                            <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
-        
 
-    <br/>
-    <br/>
-    <br/>
+    <br/><br/><br/>
     <h2>Join our mailing list</h2>
     <form action="{% url 'signup' %}">
-      <div class="mb-3">
-        <label for="email" class="form-label">Enter your Email:</label>
-        <input type="email" class="form-control" name="email">
-      </div>
-      <button type="submit" class="btn btn-primary">Sign up</button>
+        <div class="mb-3">
+            <label for="email" class="form-label">Enter your Email:</label>
+            <input type="email" class="form-control" name="email">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign up</button>
     </form>
 </div>
 {% endblock content %}
-

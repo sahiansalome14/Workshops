@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Título con Dancing Script -->
+    <h1 class="text-center mb-4" style="font-family: 'Dancing Script', cursive; color: #6f42c1;">
+        🍿 Movie Recommendation
+    </h1>
+
+    <!-- Formulario de prompt -->
+    <form method="post" class="my-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="prompt" class="form-label">Describe what you want to watch:</label>
+            <textarea class="form-control" id="prompt" name="prompt" rows="3">{{ prompt }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Get Recommendation</button>
+    </form>
+
+    <!-- Card de película recomendada -->
+    {% if recommended_movie %}
+    <div class="card mt-4 mx-auto" style="max-width: 24rem;">
+        {% if recommended_movie.image %}
+        <img src="{{ recommended_movie.image.url }}" class="card-img-top" alt="{{ recommended_movie.title }}"
+             style="height: 200px; object-fit: cover;">
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ recommended_movie.title }}</h5>
+
+            <p class="card-text mb-2" style="
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            ">
+                {{ recommended_movie.description }}
+            </p>
+
+            <p class="card-text mb-1"><strong>Genre:</strong> {{ recommended_movie.genre }}</p>
+            <p class="card-text mb-1"><strong>Year:</strong> {{ recommended_movie.year }}</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
