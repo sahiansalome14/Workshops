@@ -21,7 +21,7 @@ load_dotenv(env_path)
 
 
 # Inicializar cliente de OpenAI
-client = OpenAI(api_key=os.getenv("openai_apikey"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def home(request):

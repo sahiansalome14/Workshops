@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         # ✅ Initialize the OpenAI client with the API key
         client = OpenAI(
-            api_key=os.environ.get('openai_apikey'),
+            api_key=os.environ.get('OPENAI_API_KEY'),
         )
         # ✅ Folder to save images
         images_folder = 'media/movie/images/'
